@@ -1,4 +1,5 @@
 from django.contrib import admin
-from .models import Post
+from .models import FoodItem, Transaction
 
-admin.site.register(Post)
+admin.site.register(FoodItem)
+admin.site.register(Transaction)
