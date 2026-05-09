@@ -4,7 +4,7 @@ from django.utils import timezone
 
 class FoodItem(models.Model):
     name = models.CharField(max_length=200)
-    stock_level = models.IntegerField(default=0)
+    stock_level = models.PositiveIntegerField(default=0)
     description = models.TextField(blank=True)
 
     def __str__(self):
@@ -17,7 +17,7 @@ class Transaction(models.Model):
     ]
     item = models.ForeignKey(FoodItem, on_delete=models.CASCADE, related_name='transactions')
     person_name = models.CharField(max_length=100)
-    quantity = models.IntegerField()
+    quantity = models.PositiveIntegerField()
     transaction_type = models.CharField(max_length=10, choices=TRANSACTION_TYPES)
     date = models.DateTimeField(default=timezone.now)
 
