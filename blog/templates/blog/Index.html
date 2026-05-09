@@ -1,0 +1,66 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/blog.css' %}">
+    <title>Home</title>
+</head>
+<body>
+<style>
+.top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #333;
+    color: white;
+    padding: 10px 20px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;}
+            .nav-links {
+    display: flex;
+    list-style: none;
+}
+
+.nav-links li a {
+    color: white;
+    text-decoration: none;
+    padding: 0 15px;
+}
+
+.nav-links li a:hover {
+    color: #04AA6D; /* Highlight color on hover */
+}
+body {
+    background-color: #000000;
+}
+h1 {
+    color: aliceblue;
+}
+p {
+    color: aliceblue;
+}
+details {
+    color: cyan;
+}
+summary:hover {
+    cursor: pointer;
+}
+</style>
+    <nav class="top-bar" style="display: flex;">
+        <div class="logo">Hancock County Food Bank</div>
+        <ul class="nav-links">
+            <li><a href="post_list.html">Home</a></li>
+        </ul>
+    </nav>
+    <h1>Hancock County Food Bank</h1>
+<details>
+    <summary>Canned Corn</summary>
+    <p>A can of corn</p>
+    <p>12-18 months of freshness</p>
+    <p>vegetable</p>
+</details>
+</body>
+</html>
