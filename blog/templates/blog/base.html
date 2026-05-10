@@ -1,0 +1,78 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/blog.css' %}">
+    <title>{% block title %}Hancock County Food Bank{% endblock %}</title>
+    <style>
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #333;
+            color: white;
+            padding: 10px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        .nav-links li a {
+            color: white;
+            text-decoration: none;
+            padding: 0 15px;
+        }
+        .nav-links li a:hover {
+            color: #04AA6D; /* Highlight color on hover */
+        }
+        body {
+            background-color: #000000;
+        }
+        h1 {
+            color: aliceblue;
+        }
+        p {
+            color: aliceblue;
+        }
+        details {
+            color: cyan;
+        }
+        summary:hover {
+            cursor: pointer;
+        }
+        .messages {
+            padding: 10px;
+            margin: 10px 20px;
+            list-style: none;
+        }
+        .success { color: #04AA6D; font-weight: bold; }
+        .error { color: #ff4d4d; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <nav class="top-bar">
+        <div class="logo">Hancock County Food Bank</div>
+        <ul class="nav-links">
+            <li><a href="{% url 'index' %}">Home</a></li>
+            <li><a href="{% url 'post_list' %}">Inventory</a></li>
+            <li><a href="{% url 'transaction_history' %}">History</a></li>
+            <li><a href="{% url 'about' %}">About</a></li>
+        </ul>
+    </nav>
+
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+    {% block content %}{% endblock %}
+</body>
+</html>

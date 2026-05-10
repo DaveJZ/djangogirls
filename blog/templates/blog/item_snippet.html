@@ -1,0 +1,19 @@
+<details>
+    <summary>{{ item.name }}</summary>
+    <p>Stock Level: {{ item.stock_level }}</p>
+    <p>{{ item.description }}</p>
+    
+    <!-- Item Specific History -->
+    <div style="margin-top: 10px; border-top: 1px solid #444; padding-top: 10px;">
+        <strong style="color: aliceblue; font-size: 0.9em;">Recent Activity:</strong>
+        <ul style="color: #ccc; font-size: 0.85em; list-style: none; padding-left: 0; margin-top: 5px;">
+            {% for tx in item.transactions.all|dictsortreversed:"date"|slice:":3" %}
+                <li style="margin-bottom: 4px;">
+                    {{ tx.date|date:"M d" }}: {{ tx.get_transaction_type_display }} {{ tx.quantity }} unit(s) by {{ tx.person_name }}
+                </li>
+            {% empty %}
+                <li>No activity recorded.</li>
+            {% endfor %}
+        </ul>
+    </div>
+</details>
