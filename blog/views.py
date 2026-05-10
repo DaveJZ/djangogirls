@@ -3,7 +3,7 @@ from django.contrib import messages
 from .models import FoodItem, Transaction
 
 def post_list(request):
-    # Simply get all items from the database
+    # Getting all the items from the database
     items = FoodItem.objects.all()
     
     #Handling the Transaction FormS
@@ -14,12 +14,12 @@ def post_list(request):
         amount_str = request.POST.get('amount', '').strip()
         t_type = request.POST.get('type')
         
-        # Check for missing required inputs (Person, Amount, and Type)
+        # Check for missing required inputs(Person, Amount, and Type)
         if not person or not amount_str or not t_type:
             messages.error(request, "Please enter your name and the quantity.")
             return redirect('post_list')
 
-        # Ensure at least an existing item is selected OR a new name is typed
+        # Ensuring that at least an existing item is selected OR a new name is typed
         if not item_id and not item_name:
             messages.error(request, "Please select an item from the list or type a new name.")
             return redirect('post_list')
@@ -86,7 +86,7 @@ def about(request):
 
 def index(request):
     # This connects the Index.html page
-    # We pull the items here so the home page can show a status update
+    # We pull the items here, so the home page can show a status update
     items = FoodItem.objects.all()
     return render(request, 'blog/Index.html', {'items': items})
 
