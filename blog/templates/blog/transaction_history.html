@@ -1,0 +1,49 @@
+{% extends 'blog/base.html' %}
+
+{% block title %}Transaction History{% endblock %}
+
+{% block content %}
+    <h1>Transaction History</h1>
+
+    <div style="margin: 0 20px 20px 20px;">
+        <form method="POST" action="{% url 'clear_history' %}" onsubmit="return confirm('Are you sure you want to permanently delete all food items and their entire transaction history? This cannot be undone.');">
+            {% csrf_token %}
+            <button type="submit" style="background-color: #ff4d4d; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-weight: bold;">
+                Wipe Inventory & History
+            </button>
+        </form>
+    </div>
+
+    <div style="margin: 20px; overflow-x: auto;">
+        <table style="width: 100%; border-collapse: collapse; color: aliceblue; background-color: #222;">
+            <thead>
+                <tr style="border-bottom: 2px solid #444; text-align: left;">
+                    <th style="padding: 12px;">Date</th>
+                    <th style="padding: 12px;">Item</th>
+                    <th style="padding: 12px;">Type</th>
+                    <th style="padding: 12px;">Quantity</th>
+                    <th style="padding: 12px;">Person</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for transaction in transactions %}
+                <tr style="border-bottom: 1px solid #333;">
+                    <td style="padding: 10px;">{{ transaction.date|date:"Y-m-d H:i" }}</td>
+                    <td style="padding: 10px;">{{ transaction.item.name }}</td>
+                    <td style="padding: 10px;">
+                        <span style="color: {% if transaction.transaction_type == 'DONATE' %}#04AA6D{% else %}#ff4d4d{% endif %}; font-weight: bold;">
+                            {{ transaction.get_transaction_type_display }}
+                        </span>
+                    </td>
+                    <td style="padding: 10px;">{{ transaction.quantity }}</td>
+                    <td style="padding: 10px;">{{ transaction.person_name }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5" style="padding: 20px; text-align: center;">No transactions found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
