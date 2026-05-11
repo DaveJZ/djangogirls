@@ -3,16 +3,83 @@
 {% block title %}Inventory{% endblock %}
 
 {% block content %}
+    <style>
+        .not_bar {
+            background-color: #222; 
+            padding: 20px; 
+            border-radius: 8px; 
+            margin: 20px; 
+            border: 1px solid #444;
+        }
+        .record {
+            color: aliceblue; 
+            margin-top: 0;
+        }
+        .existing-item-container {
+            margin-bottom: 15px; 
+            display: none;
+        }
+        label {
+            color: aliceblue; 
+            display: block; 
+            margin-bottom: 5px;
+        }
+        input {
+            padding: 8px; 
+            width: 100%; 
+            max-width: 300px; 
+            background: #333; 
+            color: white; 
+            border: 1px solid #555;
+        }
+        select {
+            padding: 8px; 
+            width: 100%; 
+            max-width: 300px; 
+            background: #333; 
+            color: white; 
+            border: 1px solid #555;
+        }
+        .submit {
+            background-color: #04AA6D; 
+            color: white; 
+            border: none; 
+            padding: 10px 25px; 
+            border-radius: 4px; 
+            cursor: pointer; 
+            font-weight: bold;
+            background-color: #04AA6D; 
+            color: white; 
+            border: none; 
+            padding: 10px 25px; 
+            border-radius: 4px; 
+            cursor: pointer; 
+            font-weight: bold;
+        }
+        .return {
+            background-color: #666; 
+            color: white; 
+            border: none; 
+            padding: 10px 25px; 
+            border-radius: 4px; 
+            cursor: pointer; 
+            font-weight: bold; 
+            margin-left: 10px;
+        }
+        .current {
+            margin: 20px;
+        }
+    </style>
     <h1>Hancock County Food Bank</h1>
 
     <!-- Transaction Form -->
-    <div style="background-color: #222; padding: 20px; border-radius: 8px; margin: 20px; border: 1px solid #444;">
-        <h2 style="color: aliceblue; margin-top: 0;">Record Transaction</h2>
+    <div class="not_bar">
+        <h2 class="record">Record Transaction</h2>
         <form method="POST">
             {% csrf_token %}
-            <div id="existing-item-container" style="margin-bottom: 15px; display: none;">
-                <label style="color: aliceblue; display: block; margin-bottom: 5px;">Choose Existing Item:</label>
-                <select name="item_id" style="padding: 8px; width: 100%; max-width: 300px; background: #333; color: white; border: 1px solid #555;">
+            <div id="existing-item-container">
+                <label>Choose Existing Item:</label>
+                <select name="item_id">
                     <option value="">-- Select Existing Item --</option>
                     {% for item in items %}
                         <option value="{{ item.id }}" {% if item.stock_level <= 0 %}disabled{% endif %}>
@@ -22,20 +89,20 @@
                 </select>
             </div>
             <div id="new-item-container" style="margin-bottom: 15px;">
-                <label style="color: aliceblue; display: block; margin-bottom: 5px;">Food Item Name:</label>
-                <input type="text" name="item_name" placeholder="e.g. Canned Corn" style="padding: 8px; width: 100%; max-width: 300px; background: #333; color: white; border: 1px solid #555;">
+                <label>Food Item Name:</label>
+                <input type="text" name="item_name" placeholder="e.g. Canned Corn">
             </div>
             <div style="margin-bottom: 15px;">
-                <label style="color: aliceblue; display: block; margin-bottom: 5px;">Person Name:</label>
-                <input type="text" name="person" required style="padding: 8px; width: 100%; max-width: 300px; background: #333; color: white; border: 1px solid #555;">
+                <label>Person Name:</label>
+                <input type="text" name="person" required>
             </div>
             <div style="margin-bottom: 15px;">
-                <label style="color: aliceblue; display: block; margin-bottom: 5px;">Quantity:</label>
-                <input type="number" name="amount" min="1" required style="padding: 8px; width: 100%; max-width: 300px; background: #333; color: white; border: 1px solid #555;">
+                <label>Quantity:</label>
+                <input type="number" name="amount" min="1" required>
             </div>
             <div style="margin-bottom: 15px;">
-                <label style="color: aliceblue; display: block; margin-bottom: 5px;">Action:</label>
-                <select id="action-type" name="type" required onchange="toggleInputs()" style="padding: 8px; width: 100%; max-width: 300px; background: #333; color: white; border: 1px solid #555;">
+                <label>Action:</label>
+                <select id="action-type" name="type" required onchange="toggleInputs()">
                     <option value="DONATE">Donate (Add to Stock)</option>
                     {% if items %}
                         <option value="TAKE">Take (Remove from Stock)</option>
@@ -44,12 +111,12 @@
                     {% endif %}
                 </select>
             </div>
-            <button type="submit" style="background-color: #04AA6D; color: white; border: none; padding: 10px 25px; border-radius: 4px; cursor: pointer; font-weight: bold;">Submit Transaction</button>
-            <button type="reset" style="background-color: #666; color: white; border: none; padding: 10px 25px; border-radius: 4px; cursor: pointer; font-weight: bold; margin-left: 10px;">Clear Form</button>
+            <button type="submit" class="submit">Submit Transaction</button>
+            <button type="reset" class="reset">Clear Form</button>
         </form>
     </div>
     
-    <h2 style="margin: 20px;">Current Inventory</h2>
+    <h2 class="current">Current Inventory</h2>
     {% for item in items %}
         {% include 'blog/item_snippet.html' with item=item %}
     {% empty %}

@@ -4,11 +4,32 @@
     <p>{{ item.description }}</p>
     
     <!-- Item Specific History -->
-    <div style="margin-top: 10px; border-top: 1px solid #444; padding-top: 10px;">
-        <strong style="color: aliceblue; font-size: 0.9em;">Recent Activity:</strong>
-        <ul style="color: #ccc; font-size: 0.85em; list-style: none; padding-left: 0; margin-top: 5px;">
+    <style>
+        .not_bar {
+            margin-top: 10px; 
+            border-top: 1px solid #444; 
+            padding-top: 10px;
+        }
+        strong {
+            color: aliceblue; 
+            font-size: 0.9em;
+        }
+        ul {
+            color: #ccc; 
+            font-size: 0.85em; 
+            list-style: none; 
+            padding-left: 0; 
+            margin-top: 5px;
+        }
+        li {
+            margin-bottom: 4px;
+        }
+    </style>
+    <div class="not_bar">
+        <strong>Recent Activity:</strong>
+        <ul >
             {% for tx in item.transactions.all|dictsortreversed:"date"|slice:":3" %}
-                <li style="margin-bottom: 4px;">
+                <li >
                     {{ tx.date|date:"M d" }}: {{ tx.get_transaction_type_display }} {{ tx.quantity }} unit(s) by {{ tx.person_name }}
                 </li>
             {% empty %}
