@@ -73,26 +73,27 @@ def post_list(request):
 
         return redirect('post_list')
 
-    return render(request, 'blog/post_list.html', {'items': items})
+    return render(request, 'blog/post_list.html', {'items': items, 'page_title': 'Inventory'})
 
 def item_detail(request, pk):
     item = get_object_or_404(FoodItem, pk=pk)
     # This view allows the front end to show history/details for one specific food item
-    return render(request, 'blog/item_detail.html', {'item': item})
+    return render(request, 'blog/item_detail.html', {'item': item, 'page_title': 'Item Details'})
 
 def about(request):
     # A simple view for the about page
-    return render(request, 'blog/about.html')
+    return render(request, 'blog/about.html', {'page_title': 'About Us'})
 
 def index(request):
     # This connects the Index.html page
     # We pull the items here, so the home page can show a status update
     items = FoodItem.objects.all()
-    return render(request, 'blog/Index.html', {'items': items})
+    return render(request, 'blog/Index.html', {'items': items, 'page_title': 'Greetings Everyone'})
 
 def transaction_history(request):
-    transactions = Transaction.objects.all().order_by('-date')
-    return render(request, 'blog/transaction_history.html', {'transactions': transactions})
+    #Query for related FoodItem data
+    transactions = Transaction.objects.select_related('item').all().order_by('-date')
+    return render(request, 'blog/transaction_history.html', {'transactions': transactions, 'page_title': 'Transaction History'})
 
 def clear_history(request):
     if request.method == "POST":

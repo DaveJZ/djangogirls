@@ -44,7 +44,7 @@
             padding: 10px;
         }
     </style>
-    <h1>Transaction History</h1>
+    <h1>{{ page_title }}</h1>
 
     <div class="not_bar">
         <form method="POST" action="{% url 'clear_history' %}" onsubmit="return confirm('Are you sure you want to permanently delete all food items and their entire transaction history? This cannot be undone.');">
