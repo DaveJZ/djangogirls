@@ -54,20 +54,17 @@ def post_list(request):
 
         # Update the stock level based on input
         if t_type == 'DONATE':
-            food_item.stock_level = food_item.stock_level + amount
             success_msg = f"Successfully added {amount} units to {food_item.name}."
         elif t_type == 'TAKE':
             if food_item.stock_level < amount:
                 messages.error(request, f"Insufficient stock! Only {food_item.stock_level} available.")
                 return redirect('post_list')
             
-            food_item.stock_level = food_item.stock_level - amount
             success_msg = f"Successfully withdrew {amount} units of {food_item.name}."
         else:
             return redirect('post_list')
 
-        # Save changes and record the transaction
-        food_item.save()
+        # Saving the transaction now automatically updates the food_item stock
         Transaction.objects.create(item=food_item, person_name=person, quantity=amount, transaction_type=t_type)
         messages.success(request, success_msg)
 
@@ -91,8 +88,8 @@ def index(request):
     return render(request, 'blog/Index.html', {'items': items, 'page_title': 'Greetings Everyone'})
 
 def transaction_history(request):
-    #Query for related FoodItem data
-    transactions = Transaction.objects.select_related('item').all().order_by('-date')
+    # Simply get all transactions from the database and order them by date
+    transactions = Transaction.objects.all().order_by('-date')
     return render(request, 'blog/transaction_history.html', {'transactions': transactions, 'page_title': 'Transaction History'})
 
 def clear_history(request):

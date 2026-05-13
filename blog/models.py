@@ -23,3 +23,14 @@ class Transaction(models.Model):
 
     def __str__(self):
         return f"{self.transaction_type} - {self.item.name}"
+
+    def save(self):
+        # Only update stock when creating a NEW transaction (not editing an old one)
+        if not self.pk:
+            if self.transaction_type == 'DONATE':
+                self.item.stock_level += self.quantity
+            elif self.transaction_type == 'TAKE':
+                self.item.stock_level -= self.quantity
+            # Save the related food item's new stock level
+            self.item.save()
+        super().save()
